@@ -18,7 +18,6 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 
 const config = createConfig({
   autoConnect: true,
-  storage: createStorage({ storage: window.localStorage }),
   connectors: [
     new MetaMaskConnector({ chains }),
   ],
