@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   Card, CardHeader, CardFooter, Image, Button, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input, useDisclosure,
 } from "@nextui-org/react";
-import { TPropsCardBuyNFT } from "./types";
+import { TPropsCardBuyNFT } from "../../types";
 import { useAccount, useContractRead, useContractWrite } from "wagmi";
 
 import { toast } from 'react-hot-toast';
@@ -126,14 +126,14 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
               className="block w-full h-auto absolute top-0 bottom-0 object-cover align-center z-0"
               src={image}
             />
-            <div className="bg-black bg-opacity-90 text-white font-extrabold text-3xl rounded-xl h-1/4 w-1/4 absolute z-10 bottom-4 right-4 border-[#22ff566d] border-5 flex justify-center items-center text-center">
+            <div className="bg-black bg-opacity-90 text-white font-extrabold text-2xl lg:text-3xl rounded-xl h-1/4 w-1/4 absolute z-10 bottom-4 right-4 border-[#22ff566d] border-5 flex justify-center items-center text-center">
               X {typeof balanceNFT == 'bigint' ? balanceNFT.toString() : '0'}
             </div>
           </div>
           <div className="opacity-0 hover:opacity-100 absolute w-full h-full p-6 bg-gradient-to-br from-green-900 to-[#0008] bg-opacity-80 text-center flex flex-col gap-6 justify-evenly transition duration-150 ease-out hover:ease-in">
             <h4 className="text-yellow-500 font-bold text-2xl">{title}</h4>
             <div>
-              <p className="text-white font-semibold text-tiny">{description}</p>
+              <span className="text-white font-semibold text-tiny">{description}</span>
             </div>
             <Button onClick={onOpen} color="success" variant="bordered" radius="full" >
               BUY {price} USDT
@@ -147,15 +147,15 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
             <>
               <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
               <ModalBody>
-                <p>
+                <span>
                   <b>Balance:</b> {typeof balanceUSDT == 'bigint' ? formatEther(balanceUSDT) : '0'}
-                </p>
-                <p>
+                </span>
+                <span>
                   <b>Allownance:</b> {typeof allowance == 'bigint' ? formatEther(allowance) : '0'}
-                </p>
-                <p>
+                </span>
+                <span>
                   <b>Price: </b> {typeof Price == 'bigint' ? formatEther(Price) : '0'}
-                </p>
+                </span>
                 <Input
                   type="number"
                   label="USDT amount"
