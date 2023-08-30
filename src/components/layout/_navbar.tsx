@@ -14,7 +14,7 @@ interface TypeLink {
 }
 
 const links: TypeLink[] = [
-  { label: 'Home', route: '/' }
+  { label: 'Inicio', route: '/' }
 ]
 
 const NavbarLayout = () => {
@@ -22,7 +22,6 @@ const NavbarLayout = () => {
   return (
     <Navbar position="static" >
       <NavbarBrand>
-        <BiSolidCoin />
         <p className="font-bold text-inherit">Agritoken</p>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">

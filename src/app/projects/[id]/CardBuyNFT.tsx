@@ -13,6 +13,7 @@ import AbiUSDT from '@/data/ABIs/USDT.abi.json';
 import AbiAgriToken from '@/data/ABIs/AgroToken.abi.json';
 import { formatEther, parseEther } from "viem";
 import LinkBinance from "@/components/nft/link-binance";
+import { BiSolidDownArrow } from "react-icons/bi";
 
 const contractUSDT = '0x755F00949BfFf9Ae7D8EDBc2E3Cc9be2F86948e2'
 const contractAgriToken = '0x203C7C84120d40b59F1a641C8Fb989889cE58f52'
@@ -27,8 +28,10 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     description
   } = props;
 
-  const [amountApprove, setAmountApprove] = useState("0")
-  const [amountDeposit, setAmountDeposit] = useState("0")
+  const [amountApprove, setAmountApprove] = useState("")
+  const [amountDeposit, setAmountDeposit] = useState("")
+
+  const [isAddAllow, setIsAddAllow] = useState(false)
 
   const { address } = useAccount();
 
@@ -114,11 +117,14 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
       toast.error(error?.details)
     }
   }
+  useEffect(() => {
+    setIsAddAllow(typeof allowance == 'bigint' && allowance == BigInt(0))
+  }, [allowance])
 
   return (
     <>
       <Card isFooterBlurred className="p-0" shadow="md">
-        <CardBody className="relative z-10 top-0 flex-col items-start p-0 overflow-hidden" >
+        <CardBody className="relative z-10 top-0 flex-col items-start p-0 overflow-hidden " >
           <div className="realtive z-0 w-full before:block before:pb-[100%]">
             <Image
               removeWrapper
@@ -133,7 +139,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
           <div className="opacity-0 hover:opacity-100 absolute w-full h-full p-6 bg-gradient-to-br from-green-900 to-[#0008] bg-opacity-80 text-center flex flex-col gap-6 justify-evenly transition duration-150 ease-out hover:ease-in">
             <h4 className="text-yellow-500 font-bold text-2xl">{title}</h4>
             <div>
-              <span className="text-white font-semibold text-tiny">{description}</span>
+              <span className="text-white font-semibold  text-xl ">{description}</span>
             </div>
             <Button onClick={onOpen} color="success" variant="bordered" radius="full" >
               BUY {price} USDT
@@ -141,55 +147,75 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
           </div>
         </CardBody>
       </Card >
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-[#39651ae5]">
-        <ModalContent>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-[#0d3616]">
+        <ModalContent className="text-xl">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
+              <ModalHeader className="font-bold text-2xl text-slate-400 ">{title}</ModalHeader>
               <ModalBody>
-                <span>
-                  <b>Balance:</b> {typeof balanceUSDT == 'bigint' ? formatEther(balanceUSDT) : '0'}
-                </span>
-                <span>
-                  <b>Allownance:</b> {typeof allowance == 'bigint' ? formatEther(allowance) : '0'}
-                </span>
-                <span>
-                  <b>Price: </b> {typeof Price == 'bigint' ? formatEther(Price) : '0'}
-                </span>
+                <div className="text-yellow-400">
+                  <span>
+                    <b>Precio NFT: </b> {typeof Price == 'bigint' ? formatEther(Price) : '0'} USDT
+                  </span>
+                  <br />
+                  <span>
+                    <b>Balance:</b> {typeof balanceUSDT == 'bigint' ? formatEther(balanceUSDT) : '0'} USDT
+                  </span>
+                  <br />
+                  <span>
+                    <b>Permitido:</b> {typeof allowance == 'bigint' ? formatEther(allowance) : '0'} USDT
+                  </span>
+                </div>
+                <div>
+                  <Button
+                    onClick={() => setIsAddAllow(!isAddAllow)}
+                    size="sm">Añadir <BiSolidDownArrow /> </Button>
+                </div>
+                {
+                  isAddAllow && (<div className="grid gap-4" >
+                    <Input
+                      size="lg"
+                      type="number"
+                      label="USDT amount"
+                      value={amountApprove}
+                      onChange={(ev) => {
+                        setAmountApprove(ev.target.value)
+                      }} />
+                    <Button
+                      size="lg"
+                      color="primary"
+                      className="uppercase"
+                      onClick={handleIncreaseClick}>
+                      Incrementar USDT permitido
+                    </Button>
+                    <hr />
+
+                  </div>
+                  )
+                }
                 <Input
-                  type="number"
-                  label="USDT amount"
-                  value={amountApprove}
-                  onChange={(ev) => {
-                    setAmountApprove(ev.target.value)
-                  }} />
-                <span>{amountApprove} USDT</span>
-                <Button
-                  color="primary"
-                  onClick={handleIncreaseClick}>
-                  increaseAllowance
-                </Button>
-                <hr />
-                <Input
+                  size="lg"
                   type="number"
                   label="Count NFT's"
                   min={1}
                   value={amountDeposit}
+                  description="dasdas"
                   onChange={(ev) => {
                     setAmountDeposit(ev.target.value)
                   }} />
-                <span>{amountDeposit} USDT {id}</span>
                 <Button
+                  size="lg"
+                  className="uppercase"
                   color="success"
                   onClick={handleBuyNFTClick}>
-                  Buy NFT
+                  Comprar NFT
                 </Button>
               </ModalBody>
               <ModalFooter />
             </>
           )}
         </ModalContent>
-      </Modal>
+      </Modal >
     </>
   );
 }

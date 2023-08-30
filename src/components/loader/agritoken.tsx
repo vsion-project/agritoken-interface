@@ -12,10 +12,9 @@ const AgritokenLoader = (props: TPropsLoader) => {
       <CircularProgress
         aria-label="Loading..."
         size="lg"
-        value={value}
         color="warning"
-        showValueLabel={true}
         label="Agritoken"
+        className='text-3xl'
         disableAnimation={false}
       />
     </div>

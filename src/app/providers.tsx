@@ -1,7 +1,7 @@
 'use client'
 
 import NavbarLayout from '@/components/layout/_navbar'
-import { CircularProgress, Image as ImageNext, NextUIProvider } from '@nextui-org/react'
+import { NextUIProvider } from '@nextui-org/react'
 
 import { WagmiConfig, createConfig, configureChains, createStorage } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
@@ -17,6 +17,7 @@ import { createPublicClient, http } from 'viem'
 import { Toaster } from 'react-hot-toast';
 import { useEffect, useMemo, useState } from 'react'
 import AgritokenLoader from '@/components/loader/agritoken'
+import ImageNext from 'next/image'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [sepolia],
@@ -97,7 +98,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <WagmiConfig config={config}>
       <NextUIProvider>
         {!imgsLoaded && (<AgritokenLoader value={progressValue} />)}
-        <div className='bg-sky bg-no-repeat bg-cover bg-bottom overflow-y-hidden relative h-[120%]'>
+        <div className='bg-sky bg-no-repeat bg-cover bg-bottom overflow-x-hidden relative h-[120%]'>
           <div
             className='w-full bottom-0 fixed grid justify-center overflow-auto z-0'
           >

@@ -33,7 +33,11 @@ const ConnectButton = () => {
             Network unsupported{Array.isArray(chain) ? chain?.[0] : 'jj'}
           </Button>)
           : (<div>
-            <Button onClick={() => disconnect()}>
+            <Button
+              onClick={() => disconnect()}
+              color='primary'
+              variant='bordered'
+            >
               Connected to {address?.slice(0, 6)}...{address?.slice(address.length - 6)}
             </Button>
           </div>)
