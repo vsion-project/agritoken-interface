@@ -1,15 +1,14 @@
+'use client'
 import { Button, Modal, useDisclosure } from '@nextui-org/react';
 import React, { useEffect } from 'react';
 import ModalConnect from './_modal'
 import { useAccount, useConnect, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
+import ClientOnly from '../hyration/clientOnly';
 
 const ConnectButton = () => {
 
   const { address, isConnected } = useAccount()
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  })
   const { disconnect } = useDisconnect()
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { chain } = useNetwork();
@@ -24,7 +23,7 @@ const ConnectButton = () => {
   }, [isConnected, chain?.unsupported, chain, switchNetwork, chains])
 
   return (
-    <>
+    <ClientOnly>
       {isConnected
         ? chain?.unsupported
           ? (<Button
@@ -44,7 +43,7 @@ const ConnectButton = () => {
         : (<Button color="primary" onClick={() => onOpen()}>Connect Wallet</Button>)
       }
       <ModalConnect isOpen={isOpen} onOpenChange={onOpenChange} />
-    </>
+    </ClientOnly>
   );
 };
 

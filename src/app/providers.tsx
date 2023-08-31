@@ -15,9 +15,12 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 import { localhost, sepolia } from 'wagmi/chains'
 import { createPublicClient, http } from 'viem'
 import { Toaster } from 'react-hot-toast';
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import AgritokenLoader from '@/components/loader/agritoken'
 import ImageNext from 'next/image'
+import LoaderTx from '@/components/loader/loaderTx'
+
+import { LoadingContext } from '@/context/use-transaccion'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [sepolia],
@@ -58,7 +61,7 @@ const config = createConfig({
 export function Providers({ children }: { children: React.ReactNode }) {
   const [imgsLoaded, setImgsLoaded] = useState(false)
   const [progressValue, setProgressValue] = useState(0)
-
+  const { isLoading } = useContext(LoadingContext)
 
   useEffect(() => {
     const images = Array.from(document.images);
@@ -110,9 +113,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
             />
           </div>
           <NavbarLayout />
+          {isLoading && <LoaderTx />}
           <main className="flex min-h-[90vh] flex-col items-center justify-between px-12 py-16 sm:px-24 z-0">
             {children}
           </main>
+
           <Toaster
             position="bottom-center"
             reverseOrder={false}
@@ -126,6 +131,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             }}
           />
         </div>
+
       </NextUIProvider>
     </WagmiConfig>
   )

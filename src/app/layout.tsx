@@ -2,7 +2,7 @@ import { Providers } from "./providers";
 import './globals.css'
 import type { Metadata } from 'next'
 import { Nunito_Sans } from 'next/font/google'
-import { Image } from "@nextui-org/react";
+import { LoadingProvider } from "@/context/use-transaccion";
 
 const nunito = Nunito_Sans({ weight: ['200', '400', '500', '600', '700'], subsets: ['latin-ext'] })
 
@@ -19,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <Providers>
-          {children}
-        </Providers>
+        <LoadingProvider>
+          <Providers>
+            {children}
+          </Providers>
+        </LoadingProvider>
       </body>
     </html>
   )
