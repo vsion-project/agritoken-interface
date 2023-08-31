@@ -52,7 +52,7 @@ const CardList = ({ id }: { id: string }) => {
       <div className='w-full flex flex-col items-center gap-8 relative'>
         <div className='w-full flex'>
 
-          <div className='w-full flex justify-center items-center h-16 '>
+          <div className='w-full flex justify-center items-center h-12 '>
             <Progress color='warning' aria-label="Loading..." value={Math.trunc(step / (timeAvatar.length - 1) * 100)} className="max-w-full" />
           </div>
           <div className='w-full flex justify-between absolute'>
@@ -68,7 +68,7 @@ const CardList = ({ id }: { id: string }) => {
             ))}
           </div>
         </div>
-        <div><span className='text-yellow-950 text-3xl'>Meta de recaudacion 10000 USDT</span></div>
+        <div><span className='text-yellow-950 text-3xl font-semibold'>Meta 10000 USDT</span></div>
       </div>
       {id == '1'
         ? (

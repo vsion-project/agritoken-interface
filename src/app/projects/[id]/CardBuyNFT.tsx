@@ -250,7 +250,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                   )
                     : (
                       <>
-                        <div className="text-yellow-400">
+                        <div className="text-gray-200">
                           <span>
                             <b>Precio NFT: </b> {typeof Price == 'bigint' ? formatEther(Price) : '0'} USDT
                           </span>
