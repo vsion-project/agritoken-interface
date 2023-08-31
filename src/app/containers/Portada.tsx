@@ -1,7 +1,7 @@
 'use client'
 import AvatarImage from "@/components/avatarNFT/avatarImage";
 import { Button } from "@nextui-org/react";
-import Link from "next/link";
+import Link from "next/link.js";
 
 export default function Portada() {
   return (
@@ -15,7 +15,7 @@ export default function Portada() {
             Cultivos tradicionales tokenizados para promover la participacion global.
           </h2>
           <div>
-            <Link href={{ pathname: '/projects/1' }} >
+            <Link href='/projects/1' >
               <Button className="uppercase text-xl font-bold" variant="ghost" color="warning" size="lg">
                 Participar
               </Button>
