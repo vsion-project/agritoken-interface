@@ -1,11 +1,9 @@
 'use client'
 import React from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
-import { AcmeLogo } from "./AcmeLogo.jsx";
-
-import { BiSolidCoin } from "react-icons/bi";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, } from "@nextui-org/react";
 
 import ButtonConnect from '@/components/connect/button'
+import Link from "next/link.js";
 
 
 interface TypeLink {
@@ -27,7 +25,7 @@ const NavbarLayout = () => {
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {links.map((link, idx) => (
           <NavbarItem key={idx}>
-            <Link color="foreground" href={link.route}>
+            <Link color="foreground" href={link.route} >
               {link.label}
             </Link>
           </NavbarItem>

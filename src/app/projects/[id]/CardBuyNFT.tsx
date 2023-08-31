@@ -199,7 +199,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
             <div>
               <span className="text-white font-semibold  text-xl ">{description}</span>
             </div>
-            <Button onClick={onOpen} color="success" variant="bordered" radius="full" >
+            <Button onClick={onOpen} color="success" variant="bordered" radius="full" size="lg" className="text-xl">
               BUY {price} USDT
             </Button>
           </div>
