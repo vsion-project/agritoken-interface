@@ -10,6 +10,9 @@ const AgritokenLoader = (props: TPropsLoader) => {
   return (
     <div className='w-full h-full fixed z-50 grid justify-center align-middle bg-green-700 text-8xl'>
       <CircularProgress
+        classNames={{
+          label: 'text-2xl text-white'
+        }}
         aria-label="Loading..."
         size="lg"
         color="warning"

@@ -34,7 +34,7 @@ const NavbarLayout = () => {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
+        <NavbarItem >
           <ButtonConnect />
         </NavbarItem>
       </NavbarContent>

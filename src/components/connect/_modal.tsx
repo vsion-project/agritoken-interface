@@ -29,6 +29,8 @@ const _modal = (props: TPropsModalConnect) => {
                 .map((x) => (
                   <Button
                     color='warning'
+                    size='lg'
+                    className='text-2xl font-medium'
                     key={x.id}
                     onClick={() => handleConnect(x, onClose)}
                   >

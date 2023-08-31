@@ -9,7 +9,6 @@ const LoaderTx = () => {
         aria-label="Loading..."
         size="lg"
         color="warning"
-        label="Agritoken"
         className='text-3xl'
         disableAnimation={false}
       />

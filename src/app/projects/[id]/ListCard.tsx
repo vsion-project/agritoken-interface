@@ -49,7 +49,7 @@ const timeAvatar = [
 const CardList = ({ id }: { id: string }) => {
   return (
     <>
-      <div className='w-full flex flex-col items-center gap-8 relative'>
+      <div className='w-full flex flex-col items-center gap-4 relative mb-4'>
         <div className='w-full flex'>
 
           <div className='w-full flex justify-center items-center h-12 '>
