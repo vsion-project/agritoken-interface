@@ -22,6 +22,7 @@ import { LoadingContext } from "@/context/use-transaccion";
 import ClientOnly from "@/components/hyration/clientOnly";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from "remark-gfm";
+import { error } from "console";
 
 const contractUSDT = '0x755F00949BfFf9Ae7D8EDBc2E3Cc9be2F86948e2'
 const contractAgriToken = '0xeAa857D5Fc73bC0270E20703506A904EF3c497Fd'
@@ -36,18 +37,15 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     description
   } = props;
 
-  const [amountApprove, setAmountApprove] = useState("")
   const [amountDeposit, setAmountDeposit] = useState("")
   const [isApprove, setIsApprove] = useState(false)
   const [isOk, setIsOk] = useState(false)
 
   const { address, isConnected } = useAccount()
 
-  const [isAddAllow, setIsAddAllow] = useState(false)
-
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
-  const { setLoading, isLoading } = useContext(LoadingContext)
+  const { setLoading } = useContext(LoadingContext)
 
   const markdown = `
   **Descargo de Responsabilidad - Uso de NFT en Agritoken**
@@ -92,7 +90,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
   const { writeAsync: IncreaseAllowance, isSuccess: IncreaseAllowanceSuccess, status, } = useContractWrite({
     address: contractUSDT,
     abi: AbiUSDT,
-    functionName: 'increaseAllowance',
+    functionName: 'approve',
   })
 
   // Agritoken
@@ -123,12 +121,15 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     args: [id],
   })
 
-  async function handleIncreaseClick() {
+  async function handleBuyNFTClick() {
     try {
+      if (IncreaseAllowance && typeof Price == 'bigint' && typeof balanceUSDT == 'bigint') {
 
-      if (IncreaseAllowance) {
+        if (Price * BigInt(amountDeposit) > balanceUSDT) {
+          throw new Error('No tines suficiente USDT')
+        }
         setLoading(true)
-        const res = await IncreaseAllowance({ args: [contractAgriToken, parseEther(amountApprove)] })
+        const res = await IncreaseAllowance({ args: [contractAgriToken, Price * BigInt(amountDeposit)] })
 
         await waitForTransaction({
           hash: res.hash,
@@ -141,18 +142,6 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
           />)
       }
 
-    } catch (error: any) {
-      toast.error(error?.shortMessage)
-    } finally {
-      setAmountApprove('')
-      GetAllowance()
-      GetBalanceUSDT()
-      setLoading(false)
-    }
-  }
-
-  async function handleBuyNFTClick() {
-    try {
       if (BuyNFT) {
         setLoading(true)
         const res = await BuyNFT({ args: [id, amountDeposit] })
@@ -168,19 +157,14 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
         onClose()
       }
     } catch (error: any) {
-      toast.error(error?.shortMessage)
+      toast.error(error?.shortMessage ? error.shortMessage : error?.message)
     } finally {
       GetAllowance()
       GetBalanceNFT()
       GetSupplayNFT()
-      setAmountApprove('')
       setLoading(false)
     }
   }
-
-  useEffect(() => {
-    setIsAddAllow(typeof allowance == 'bigint' && allowance == BigInt(0))
-  }, [allowance])
 
   return (
     <>
@@ -209,7 +193,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
             <div>
               <span className="text-white font-semibold  text-xl ">{description}</span>
             </div>
-            <Button onClick={onOpen} color="success" variant="bordered" radius="full" size="lg" className="text-xl">
+            <Button onClick={onOpen} color="success" variant="solid" radius="full" size="lg" className="text-xl">
               Comprar {price} USDT
             </Button>
             <ModalConnect isOpen={isOpen} onOpenChange={onOpenChange} />
@@ -267,40 +251,10 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                           </span>
                           <br />
                           <span>
-                            <b>Balance:</b> {typeof balanceUSDT == 'bigint' ? formatEther(balanceUSDT) : '0'} USDT
+                            <b>Tu tienes: </b> {typeof balanceUSDT == 'bigint' ? formatEther(balanceUSDT) : '0'} USDT
                           </span>
                           <br />
-                          <span>
-                            <b>Permitido:</b> {typeof allowance == 'bigint' ? formatEther(allowance) : '0'} USDT
-                          </span>
                         </div>
-                        <div>
-                          <Button
-                            onClick={() => setIsAddAllow(!isAddAllow)}
-                            size="sm">Añadir <BiSolidDownArrow /> </Button>
-                        </div>
-                        {
-                          isAddAllow && (<div className="grid gap-4" >
-                            <Input
-                              size="lg"
-                              type="number"
-                              label="USDT amount"
-                              value={amountApprove}
-                              onChange={(ev) => {
-                                setAmountApprove(ev.target.value)
-                              }} />
-                            <Button
-                              size="lg"
-                              color="primary"
-                              className="uppercase"
-                              onClick={handleIncreaseClick}>
-                              Incrementar USDT permitido
-                            </Button>
-                            <hr />
-
-                          </div>
-                          )
-                        }
                         <Input
                           size="lg"
                           type="number"

@@ -14,7 +14,7 @@ const deposits: TPropsCardBuyNFT[] = [
     id: '3',
     title: 'NFT 1/4 HA',
     image: '/token/post_corn_1_4.png',
-    description: 'Equivale una hectarea de cultivo de maiz ',
+    description: 'Equivale un cuarto de hectarea de cultivo de maiz ',
     price: 500
   },
   {
@@ -29,7 +29,7 @@ const deposits: TPropsCardBuyNFT[] = [
     id: '1',
     title: 'NFT 1 HA',
     image: '/token/post_corn_1.png',
-    description: 'Equivale un cuarto de hectarea de cultivo de maiz ',
+    description: 'Equivale una hectarea de cultivo de maiz ',
     price: 2000
   },
 ]
