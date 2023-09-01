@@ -8,6 +8,8 @@ import { useAccount, useContractRead, useContractWrite } from "wagmi";
 
 import { toast } from 'react-hot-toast';
 
+import ModalConnect from '@/components/connect/_modal'
+
 // ABI
 import AbiUSDT from '@/data/ABIs/USDT.abi.json';
 import AbiAgriToken from '@/data/ABIs/AgroToken.abi.json';
@@ -39,9 +41,9 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
   const [isApprove, setIsApprove] = useState(false)
   const [isOk, setIsOk] = useState(false)
 
-  const [isAddAllow, setIsAddAllow] = useState(false)
+  const { address, isConnected } = useAccount()
 
-  const { address } = useAccount();
+  const [isAddAllow, setIsAddAllow] = useState(false)
 
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
@@ -107,6 +109,13 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     args: [address, id],
   })
 
+  const { data: supplayNFT, refetch: GetSupplayNFT, } = useContractRead({
+    address: contractAgriToken,
+    abi: AbiAgriToken,
+    functionName: 'balanceOf',
+    args: [contractAgriToken, id],
+  })
+
   const { data: Price } = useContractRead({
     address: contractAgriToken,
     abi: AbiAgriToken,
@@ -163,12 +172,10 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     } finally {
       GetAllowance()
       GetBalanceNFT()
+      GetSupplayNFT()
       setAmountApprove('')
       setLoading(false)
     }
-  }
-
-  function handleAceptContract() {
   }
 
   useEffect(() => {
@@ -188,6 +195,9 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
             />
             <ClientOnly>
 
+              {supplayNFT != null && (<div className="bg-black bg-opacity-90 text-white font-extrabold text-xl lg:text-2xl rounded-xl absolute z-10 top-4 left-4 p-2">
+                Quedan {typeof supplayNFT == 'bigint' ? supplayNFT.toString() : '0'}
+              </div>)}
               {balanceNFT != null && (<div className="bg-black bg-opacity-90 text-white font-extrabold text-2xl lg:text-3xl rounded-xl h-1/4 w-1/4 absolute z-10 bottom-4 right-4 border-[#22ff566d] border-5 flex justify-center items-center text-center">
                 X {typeof balanceNFT == 'bigint' ? balanceNFT.toString() : '0'}
               </div>)}
@@ -200,13 +210,14 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
               <span className="text-white font-semibold  text-xl ">{description}</span>
             </div>
             <Button onClick={onOpen} color="success" variant="bordered" radius="full" size="lg" className="text-xl">
-              BUY {price} USDT
+              Comprar {price} USDT
             </Button>
+            <ModalConnect isOpen={isOpen} onOpenChange={onOpenChange} />
           </div>
         </CardBody>
       </Card >
       <Modal
-        isOpen={isOpen}
+        isOpen={isOpen && isConnected}
         scrollBehavior="inside"
         onOpenChange={onOpenChange}
         size={isApprove ? "xl" : "3xl"}

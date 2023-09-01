@@ -1,10 +1,12 @@
 'use client'
-import { Button, Modal, useDisclosure } from '@nextui-org/react';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, useDisclosure } from '@nextui-org/react';
 import React, { useEffect } from 'react';
 import ModalConnect from './_modal'
 import { useAccount, useConnect, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import ClientOnly from '../hyration/clientOnly';
+import { LiaArrowDownSolid } from 'react-icons/lia';
+import { BiSolidArrowToBottom, BiSolidDownArrow } from 'react-icons/bi';
 
 const ConnectButton = () => {
 
@@ -32,13 +34,28 @@ const ConnectButton = () => {
             Network unsupported{Array.isArray(chain) ? chain?.[0] : 'jj'}
           </Button>)
           : (<div>
-            <Button
-              onClick={() => disconnect()}
-              color='primary'
-              variant='bordered'
-            >
-              Connected to {address?.slice(0, 6)}...{address?.slice(address.length - 6)}
-            </Button>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  color='primary'
+                  variant='bordered'
+                >
+                  Connected to {address?.slice(0, 6)}...{address?.slice(address.length - 6)}
+                  <BiSolidDownArrow />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Action event example"
+              >
+                <DropdownItem
+                  key="delete"
+                  onClick={() => disconnect()}
+                  className="text-danger" color="danger">
+                  Desconectar
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+
           </div>)
         : (<Button color="primary" onClick={() => onOpen()}>Connect Wallet</Button>)
       }

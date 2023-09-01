@@ -2,8 +2,14 @@
 import AvatarImage from "@/components/avatarNFT/avatarImage";
 import { Button } from "@nextui-org/react";
 import Link from "next/link.js";
+import { useRouter } from 'next/navigation';
 
 export default function Portada() {
+
+  const { push } = useRouter();
+  const handleRefresh = () => {
+    push('/projects/1');
+  };
   return (
     <div className="grid gap-8">
       <div className='flex flex-col md:flex-row gap-8'>
@@ -15,11 +21,9 @@ export default function Portada() {
             Cultivos tradicionales tokenizados para promover la participacion global.
           </h2>
           <div>
-            <Link href='projects/1' >
-              <Button className="uppercase text-xl font-bold" variant="ghost" color="warning" size="lg">
-                Participar
-              </Button>
-            </Link>
+            <Button onClick={() => handleRefresh()} className="uppercase text-xl font-bold" variant="ghost" color="warning" size="lg">
+              Participar
+            </Button>
           </div>
         </div>
         <div className="md:w-2/3 grid justify-center">
@@ -27,6 +31,6 @@ export default function Portada() {
         </div>
       </div>
 
-    </div>
+    </div >
   )
 }
