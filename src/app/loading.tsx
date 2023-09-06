@@ -1,16 +1,26 @@
 'use client'
-import React from "react";
-import { Skeleton } from "@nextui-org/react";
+
+import { CircularProgress } from '@nextui-org/react';
+import React, { Suspense } from 'react';
+
 
 export default function Loading() {
   return (
-    <div className="w-full flex flex-col md:flex-row gap-8">
-      <Skeleton className="rounded-lg">
-        <div className="h-40 rounded-lg bg-default-300"></div>
-      </Skeleton>
-      <Skeleton className="rounded-lg">
-        <div className="h-40 rounded-lg bg-default-300"></div>
-      </Skeleton>
+    <div className='w-full h-full fixed left-0 top-0 z-50 grid justify-center align-middle bg-green-700 text-8xl'>
+      <Suspense fallback={<></>}>
+
+        <CircularProgress
+          classNames={{
+            label: 'text-2xl text-white'
+          }}
+          aria-label="Loading..."
+          size="lg"
+          color="warning"
+          label="Agritoken"
+          className='text-3xl'
+          disableAnimation={false}
+        />
+      </Suspense>
     </div>
   );
-}
+};

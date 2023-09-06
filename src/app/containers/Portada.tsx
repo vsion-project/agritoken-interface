@@ -1,8 +1,8 @@
 'use client'
 import AvatarImage from "@/components/avatarNFT/avatarImage";
-import { Button } from "@nextui-org/react";
-import Link from "next/link.js";
+import { Button, Skeleton } from "@nextui-org/react";
 import { useRouter } from 'next/navigation';
+import { Suspense } from "react";
 
 export default function Portada() {
 
@@ -27,7 +27,11 @@ export default function Portada() {
           </div>
         </div>
         <div className="md:w-2/3 grid justify-center">
-          <AvatarImage />
+          <Suspense fallback={<Skeleton className="rounded-lg">
+            <div className="w-full before:block before:pb-[100%] rounded-lg bg-default-300"></div>
+          </Skeleton>}>
+            <AvatarImage />
+          </Suspense>
         </div>
       </div>
 

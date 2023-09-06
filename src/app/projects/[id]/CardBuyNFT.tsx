@@ -179,6 +179,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
               className="rounded-xl block w-full h-auto absolute top-0 bottom-0 object-cover align-center z-0"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               src={image}
+              priority
             />
             <ClientOnly>
 

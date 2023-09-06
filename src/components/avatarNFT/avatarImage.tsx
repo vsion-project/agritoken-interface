@@ -20,6 +20,7 @@ const AvatarImage = () => {
             className='rounded-xl'
             alt='1/4'
             sizes="(min-width: 1040px) 320px, (min-width: 640px) 240px, 160px"
+            priority
           />
         </motion.div>
         <motion.div
@@ -34,6 +35,7 @@ const AvatarImage = () => {
             className='rounded-xl'
             alt='1/2'
             sizes="(min-width: 1040px) 320px, (min-width: 640px) 240px, 160px"
+            priority
           />
         </motion.div>
         <motion.div
@@ -48,6 +50,7 @@ const AvatarImage = () => {
             className='rounded-xl'
             alt='1 hect'
             sizes="(min-width: 1040px) 320px, (min-width: 640px) 240px, 160px"
+            priority
           />
         </motion.div>
       </div>

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'NFT',
-  description: 'Buy NFT\'s',
+  description: 'Buy NFTs',
 }
 
 export default function ProjectsLayout({
