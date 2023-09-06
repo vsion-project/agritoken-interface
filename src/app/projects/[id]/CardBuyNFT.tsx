@@ -1,7 +1,7 @@
 'use client'
 import React, { useContext, useEffect, useState } from "react";
 import {
-  Card, CardHeader, CardFooter, Image, Button, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input, useDisclosure, Checkbox,
+  Card, Button, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input, useDisclosure, Checkbox,
 } from "@nextui-org/react";
 import { TPropsCardBuyNFT } from "../../types";
 import { useAccount, useContractRead, useContractWrite } from "wagmi";
@@ -23,6 +23,7 @@ import ClientOnly from "@/components/hyration/clientOnly";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from "remark-gfm";
 import { error } from "console";
+import Image from "next/image";
 
 const contractUSDT = '0x755F00949BfFf9Ae7D8EDBc2E3Cc9be2F86948e2'
 const contractAgriToken = '0xeAa857D5Fc73bC0270E20703506A904EF3c497Fd'
@@ -172,10 +173,11 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
         <CardBody className="relative z-10 top-0 flex-col items-start p-0 overflow-hidden " >
           <div className="realtive z-0 w-full before:block before:pb-[100%]">
             <Image
-              removeWrapper
               alt="Card example background"
-              className="block w-full h-auto absolute top-0 bottom-0 object-cover align-center z-0"
-              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 100vw, 33vw"
+              width={700}
+              height={700}
+              className="rounded-xl block w-full h-auto absolute top-0 bottom-0 object-cover align-center z-0"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               src={image}
             />
             <ClientOnly>
