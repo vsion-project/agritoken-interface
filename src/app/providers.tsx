@@ -20,6 +20,8 @@ import AgritokenLoader from '@/components/loader/agritoken'
 import ImageNext from 'next/image'
 import LoaderTx from '@/components/loader/loaderTx'
 
+import mountains from '@/../public/bg-sky.png'
+
 import { LoadingContext } from '@/context/use-transaccion'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -101,20 +103,33 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <WagmiConfig config={config}>
       <NextUIProvider>
         {!imgsLoaded && (<AgritokenLoader value={progressValue} />)}
-        <div className='bg-sky bg-no-repeat bg-cover bg-bottom overflow-x-hidden relative h-[120%]'>
+        <div className='overflow-x-hidden relative h-[120%]'>
+          <ImageNext
+            alt="Mountains"
+            src={mountains}
+            placeholder="blur"
+            quality={100}
+            fill
+            sizes="100vw"
+            style={{
+              objectFit: 'cover',
+            }}
+          />
           <div
             className='w-full bottom-0 fixed grid justify-center overflow-auto z-0'
           >
             <ImageNext
-              width={2000}
-              height={200}
+              width={3840}
+              height={75}
               src="/bg-harvest.tsp.png"
-              alt="barril"
+              alt="harvest"
+              sizes="(min-width: 2120px) 2000px, calc(94.44vw + 17px)"
+
             />
           </div>
           <NavbarLayout />
           {isLoading && <LoaderTx />}
-          <main className="flex min-h-[90vh] flex-col items-center justify-between px-12 py-16 sm:px-24 z-0">
+          <main className="min-h-[90vh] px-12 py-16 sm:px-24 z-0">
             {children}
           </main>
 

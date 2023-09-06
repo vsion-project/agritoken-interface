@@ -175,6 +175,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
               removeWrapper
               alt="Card example background"
               className="block w-full h-auto absolute top-0 bottom-0 object-cover align-center z-0"
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 100vw, 33vw"
               src={image}
             />
             <ClientOnly>
