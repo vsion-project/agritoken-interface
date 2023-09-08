@@ -38,7 +38,7 @@ const ConnectButton = () => {
               <DropdownTrigger>
                 <Button
                   color='primary'
-                  variant='bordered'
+                  variant='solid'
                 >
                   Connected to {address?.slice(0, 6)}...{address?.slice(address.length - 6)}
                   <BiSolidDownArrow />

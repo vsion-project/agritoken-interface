@@ -1,26 +1,21 @@
 'use client'
 
-import { CircularProgress } from '@nextui-org/react';
 import React, { Suspense } from 'react';
+import LogoAgritokenSimple from "@/components/svg/logoAgritokenSimple"
 
-
-export default function Loading() {
+const AgritokenLoader = () => {
   return (
-    <div className='w-full h-full fixed left-0 top-0 z-50 grid justify-center align-middle bg-green-700 text-8xl'>
+    <div
+      className='bg-logo-white bg-repeat-space bg-[length:100px_100px] fill-slate-400 w-full h-full fixed left-0 top-0 z-50 grid justify-center items-center bg-primary'
+    >
       <Suspense fallback={<></>}>
-
-        <CircularProgress
-          classNames={{
-            label: 'text-2xl text-white'
-          }}
-          aria-label="Loading..."
-          size="lg"
-          color="warning"
-          label="Agritoken"
-          className='text-3xl'
-          disableAnimation={false}
-        />
-      </Suspense>
-    </div>
+        <LogoAgritokenSimple
+          className='animate-round'
+          width={120} />
+      </Suspense >
+    </div >
   );
 };
+
+export default AgritokenLoader;
+

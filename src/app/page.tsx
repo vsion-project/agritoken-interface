@@ -1,5 +1,8 @@
 
+import { Suspense } from "react";
 import Portada from "./containers/Portada";
+import LogoAgritokenSimple from "@/components/svg/logoAgritokenSimple"
+
 
 export default function Home() {
   return (

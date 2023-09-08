@@ -209,12 +209,12 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
         scrollBehavior="inside"
         onOpenChange={onOpenChange}
         size={isApprove ? "xl" : "3xl"}
-        className="bg-[#0d3616]"
+        className="bg-primary"
       >
         <ModalContent className="text-xl">
           {(onClose) => (
             <>
-              <ModalHeader className="font-bold text-2xl text-slate-400 ">{title}</ModalHeader>
+              <ModalHeader className="font-bold text-2xl text-emerald-100 ">{title}</ModalHeader>
               <ModalBody>
                 {
                   !isApprove ? (
@@ -237,10 +237,10 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                         </Checkbox>
                       </div>
                       <div className="flex justify-evenly mt-4">
-                        <Button color="danger" variant="flat" onPress={onClose}>
+                        <Button color="danger" onPress={onClose}>
                           Cancelar
                         </Button>
-                        <Button color="primary" disabled={!isOk} onClick={() => setIsApprove(true)}>
+                        <Button color="success" disabled={!isOk} onClick={() => setIsApprove(true)}>
                           Aceptar
                         </Button>
                       </div>
@@ -262,10 +262,11 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                         <Input
                           size="lg"
                           type="number"
-                          label="Count NFT's"
+                          label="Cantidad de NFTs"
+                          classNames={{ description: 'text-gray-300' }}
                           min={1}
                           value={amountDeposit}
-                          description={`${typeof amountDeposit == 'bigint' ? amountDeposit * price : '0'} USDT`}
+                          description={`Te costará ${typeof Price == 'bigint' ? formatEther(BigInt(amountDeposit) * Price) : '0'} USDT`}
                           onChange={(ev) => {
                             setAmountDeposit(ev.target.value)
                           }} />
