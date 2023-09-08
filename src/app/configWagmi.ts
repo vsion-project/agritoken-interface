@@ -11,11 +11,12 @@ import { InjectedConnector } from 'wagmi/connectors/injected';
 
 import {
   // localhost,
-  sepolia
+  // sepolia,
+  bscTestnet
 } from 'wagmi/chains'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [sepolia],
+  [bscTestnet],
   [publicProvider()],
 )
 

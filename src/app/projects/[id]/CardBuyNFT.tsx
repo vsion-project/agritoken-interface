@@ -25,8 +25,8 @@ import remarkGfm from "remark-gfm";
 import { error } from "console";
 import Image from "next/image";
 
-const contractUSDT = '0x755F00949BfFf9Ae7D8EDBc2E3Cc9be2F86948e2'
-const contractAgriToken = '0xeAa857D5Fc73bC0270E20703506A904EF3c497Fd'
+const contractUSDT = '0x4C5232ba1117F24C7137C63fBc897BaA1baEf43a'
+const contractAgriToken = '0xE327eD2e47Be0Fa6393d2D3038510A9a8f18a395'
 
 
 export default function CardBuyNFT(props: TPropsCardBuyNFT) {
@@ -101,6 +101,12 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     functionName: 'buyNFT',
   })
 
+  const { data: fee } = useContractRead({
+    address: contractAgriToken,
+    abi: AbiAgriToken,
+    functionName: 'fee',
+  })
+
   const { data: balanceNFT, refetch: GetBalanceNFT, } = useContractRead({
     address: contractAgriToken,
     abi: AbiAgriToken,
@@ -143,9 +149,9 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
           />)
       }
 
-      if (BuyNFT) {
+      if (BuyNFT && typeof fee == 'bigint') {
         setLoading(true)
-        const res = await BuyNFT({ args: [id, amountDeposit] })
+        const res = await BuyNFT({ args: [id, amountDeposit], value: fee })
         await waitForTransaction({
           hash: res.hash,
         })

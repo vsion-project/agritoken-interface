@@ -31,7 +31,7 @@ const ConnectButton = () => {
           ? (<Button
             color="primary"
             onClick={() => Array.isArray(chain) && switchNetwork?.(chains[0].id)}>
-            Network unsupported{Array.isArray(chain) ? chain?.[0] : 'jj'}
+            Network unsupported {Array.isArray(chain) ? chain?.[0] : ''}
           </Button>)
           : (<div>
             <Dropdown>
