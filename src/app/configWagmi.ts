@@ -14,6 +14,7 @@ const chains = [
   bscTestnet
 ]
 
+console.log('env', process.env.NEXT_PUBLIC_WAGMI_PROJECT_ID)
 export const projectId = process.env.NEXT_PUBLIC_WAGMI_PROJECT_ID || ''
 
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
