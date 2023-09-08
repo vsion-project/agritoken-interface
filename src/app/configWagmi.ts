@@ -2,12 +2,7 @@
 import { createConfig, configureChains } from 'wagmi'
 
 
-import { publicProvider } from 'wagmi/providers/public'
-
-//connectors
-import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 
 import {
   // localhost,
@@ -15,31 +10,28 @@ import {
   bscTestnet
 } from 'wagmi/chains'
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [bscTestnet],
-  [publicProvider()],
-)
+const chains = [
+  bscTestnet
+]
 
-export const configWagmi = createConfig({
+export const projectId = process.env.NEXT_PUBLIC_WAGMI_PROJECT_ID || ''
+
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+export const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors: [
-    new CoinbaseWalletConnector({
-      chains,
-      options: {
-        appName: "wagmi demo",
-      },
-    }),
-    new MetaMaskConnector({
-      chains,
-    }),
-    new InjectedConnector({
-      chains,
-      options: {
-        name: 'Injected',
-        shimDisconnect: true,
-      },
-    }),
-  ],
-  publicClient,
-  webSocketPublicClient
+  connectors: w3mConnectors({ projectId, chains }),
+  publicClient
 })
+
+// export const wagmiConfig = createConfig({
+//   autoConnect: true,
+//   connectors: [
+//     new MetaMaskConnector({
+//       chains,
+//     }),
+//   ],
+//   publicClient,
+//   webSocketPublicClient
+// })
+
+export const ethereumClient = new EthereumClient(wagmiConfig, chains)

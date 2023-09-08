@@ -1,10 +1,11 @@
 'use client'
 import React, { Suspense } from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, } from "@nextui-org/react";
+import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, } from "@nextui-org/react";
 
 import ButtonConnect from '@/components/connect/button'
 import Link from "next/link.js";
 import LogoAgritoken from "@/components/svg/logoAgritoken"
+import { Web3Button } from "@web3modal/react";
 
 interface TypeLink {
   label: string,
@@ -39,15 +40,13 @@ const NavbarLayout = () => {
       </NavbarContent>
       <NavbarContent justify="end" className="hidden sm:flex gap-4">
         <NavbarItem >
-          <ButtonConnect />
-
+          <Web3Button />
         </NavbarItem>
       </NavbarContent>
 
       <NavbarMenu className="bg-black/60">
         <NavbarMenuItem >
-          <ButtonConnect />
-
+          <Web3Button />
         </NavbarMenuItem>
       </NavbarMenu>
     </Navbar>
