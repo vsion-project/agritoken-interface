@@ -20,8 +20,9 @@ const NavbarLayout = () => {
   return (
     <Navbar position="static" className="bg-sky-900/80" classNames={{ menu: 'bg-transparent' }} >
       <NavbarBrand className="flex justify-between sm:justify-start">
-
-        <LogoAgritoken width={120} />
+        <Link color="foreground" href='/' >
+          <LogoAgritoken width={120} />
+        </Link>
         <NavbarMenuToggle
           // aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"

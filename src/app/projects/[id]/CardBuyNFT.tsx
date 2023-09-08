@@ -186,7 +186,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
               {supplayNFT != null && (<div className="bg-black bg-opacity-90 text-white font-extrabold text-xl lg:text-2xl rounded-xl absolute z-10 top-4 left-4 p-2">
                 Quedan {typeof supplayNFT == 'bigint' ? supplayNFT.toString() : '0'}
               </div>)}
-              {balanceNFT != null && (<div className="bg-black bg-opacity-90 text-white font-extrabold text-2xl lg:text-3xl rounded-xl h-1/4 w-1/4 absolute z-10 bottom-4 right-4 border-[#22ff566d] border-5 flex justify-center items-center text-center">
+              {balanceNFT != null && (<div className="bg-black bg-opacity-90 text-white font-extrabold text-2xl lg:text-3xl rounded-xl h-1/4 w-2/5 md:w-1/4 absolute z-10 bottom-4 right-4 border-[#22ff566d] border-5 flex justify-center items-center text-center">
                 X {typeof balanceNFT == 'bigint' ? balanceNFT.toString() : '0'}
               </div>)}
             </ClientOnly>
@@ -210,6 +210,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
         onOpenChange={onOpenChange}
         size={isApprove ? "xl" : "3xl"}
         className="bg-primary"
+        classNames={{ closeButton: 'text-white hover:text-danger' }}
       >
         <ModalContent className="text-xl">
           {(onClose) => (

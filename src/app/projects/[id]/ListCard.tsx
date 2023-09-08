@@ -50,9 +50,14 @@ const CardList = ({ id }: { id: string }) => {
   return (
     <>
       <div className='w-full flex flex-col items-center gap-2  mb-4 py-4 bg-gray-950/50 rounded-lg'>
-        <div className='w-[95%] flex relative my-8'>
+        <div className='w-[95%] flex relative my-4 sm:mb-16'>
           <div className='w-full flex justify-center items-center h-8 '>
-            <Progress color='warning' aria-label="Loading..." value={Math.trunc(step / (timeAvatar.length - 1) * 100)} className="max-w-full" />
+            <Progress
+              color='warning'
+              aria-label="Loading..."
+              className="max-w-full"
+              value={Math.trunc(step / (timeAvatar.length - 1) * 100)}
+            />
           </div>
           <div className='w-full flex justify-between absolute'>
             {timeAvatar.map(({ icon, description }, idx) =>
@@ -67,11 +72,10 @@ const CardList = ({ id }: { id: string }) => {
             ))}
           </div>
         </div>
-        <div><span className='text-yellow-50 text-3xl font-medium'>Meta 10000 USDT</span></div>
       </div>
       {id == '1'
         ? (
-          <div className='w-full grid grid-flow-row gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 '>
+          <div className='w-full grid grid-flow-row gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 '>
             {deposits.map((dep, idx) => (<CardBuyNFT key={idx} {...dep} />))}
           </div>)
         : (

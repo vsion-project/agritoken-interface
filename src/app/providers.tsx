@@ -55,7 +55,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           </Suspense>
           <NavbarLayout />
           {isLoading && <LoaderTx />}
-          <main className="min-h-[90vh] px-6 py-16 sm:px-24 z-0">
+          <main className="min-h-[90vh] px-6 py-12 sm:px-24 z-0">
             {children}
           </main>
 
