@@ -249,12 +249,12 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                           Estoy de acuerdo
                         </Checkbox>
                       </div>
-                      <div className="flex justify-evenly mt-4">
-                        <Button color="danger" onPress={onClose}>
-                          Cancelar
-                        </Button>
+                      <div className="flex flex-col gap-6 justify-evenly mt-4">
                         <Button color="success" disabled={!isOk} onClick={() => setIsApprove(true)}>
                           Aceptar
+                        </Button>
+                        <Button color="danger" onPress={onClose}>
+                          Cancelar
                         </Button>
                       </div>
 
