@@ -11,7 +11,7 @@ import {
 } from 'wagmi/chains'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+// import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 
 const chains = [
   bscTestnet
@@ -68,12 +68,10 @@ export const wagmiConfig = createConfig({
         name: 'TrustWallet',
       }
     }),
-    new WalletConnectConnector({
+    w3mConnectors({
       chains,
-      options: {
-        projectId,
-      },
-    }),
+      projectId
+    })[0]
   ],
   publicClient,
 })

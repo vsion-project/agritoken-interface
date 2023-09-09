@@ -90,7 +90,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
           ]}
 
         themeVariables={{
-          '--w3m-accent-color': '#047857'
+          '--w3m-accent-color': '#047857',
+          '--w3m-background-color': '#047857'
         }}
       />
     </>
