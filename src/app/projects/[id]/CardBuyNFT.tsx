@@ -233,7 +233,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                   !isApprove ? (
                     <div >
                       <ReactMarkdown
-                        className="bg-white dark:text-white dark:bg-gray-900 p-2"
+                        className="bg-gray-200 text-gray-900 dark:text-gray-100 dark:bg-gray-900 p-2"
                         remarkPlugins={[remarkGfm]}
                       >
                         {markdown}
