@@ -15,9 +15,10 @@ const ConnectButton = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { chain } = useNetwork();
 
-  const { chains, error, isLoading, pendingChainId, switchNetwork } =
+  const { chains, switchNetwork } =
     useSwitchNetwork();
-
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect();
   useEffect(() => {
     if (isConnected && switchNetwork && chain?.unsupported) {
       switchNetwork(chains[0].id)
@@ -40,7 +41,7 @@ const ConnectButton = () => {
                   color='primary'
                   variant='solid'
                 >
-                  Connected to {address?.slice(0, 6)}...{address?.slice(address.length - 6)}
+                  {address?.slice(0, 6)}...{address?.slice(address.length - 6)}
                   <BiSolidDownArrow />
                 </Button>
               </DropdownTrigger>
@@ -57,7 +58,7 @@ const ConnectButton = () => {
             </Dropdown>
 
           </div>)
-        : (<Button color="primary" onClick={() => onOpen()}>Connect Wallet</Button>)
+        : (<Button color="primary" className='font-bold' onClick={() => onOpen()}>{isLoading ? "Conectando" : "Conectar Wallet"}</Button>)
       }
       <ModalConnect isOpen={isOpen} onOpenChange={onOpenChange} />
     </ClientOnly>

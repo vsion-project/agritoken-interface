@@ -130,8 +130,14 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
 
   async function handleBuyNFTClick() {
     try {
-      if (IncreaseAllowance && typeof Price == 'bigint' && typeof balanceUSDT == 'bigint') {
 
+      if (!amountDeposit) {
+        throw new Error('Indica la cantidad de NFT')
+      }
+      if (Number(amountDeposit) <= 0) {
+        throw new Error('La cantidad de NFT\'s debe ser mayor que 0')
+      }
+      if (IncreaseAllowance && typeof Price == 'bigint' && typeof balanceUSDT == 'bigint') {
         if (Price * BigInt(amountDeposit) > balanceUSDT) {
           throw new Error('No tines suficiente USDT')
         }
@@ -147,21 +153,21 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
             textPrev='Transaction complete'
             transaction={res.hash}
           />)
-      }
 
-      if (BuyNFT && typeof fee == 'bigint') {
-        setLoading(true)
-        const res = await BuyNFT({ args: [id, amountDeposit], value: fee })
-        await waitForTransaction({
-          hash: res.hash,
-        })
-        toast.success(
-          <LinkBinance
-            className='text-blue-900'
-            textPrev='Transaction complete'
-            transaction={res.hash}
-          />)
-        onClose()
+        if (BuyNFT && typeof fee == 'bigint') {
+          setLoading(true)
+          const res = await BuyNFT({ args: [id, amountDeposit], value: fee })
+          await waitForTransaction({
+            hash: res.hash,
+          })
+          toast.success(
+            <LinkBinance
+              className='text-blue-900'
+              textPrev='Transaction complete'
+              transaction={res.hash}
+            />)
+          onClose()
+        }
       }
     } catch (error: any) {
       toast.error(error?.shortMessage ? error.shortMessage : error?.message)
@@ -227,7 +233,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                   !isApprove ? (
                     <div >
                       <ReactMarkdown
-                        className="bg-gray-300 p-2"
+                        className="bg-gray-200 dark:bg-gray-900 p-2"
                         remarkPlugins={[remarkGfm]}
                       >
                         {markdown}

@@ -6,6 +6,7 @@ import ButtonConnect from '@/components/connect/button'
 import Link from "next/link.js";
 import LogoAgritoken from "@/components/svg/logoAgritoken"
 import { Web3Button } from "@web3modal/react";
+import ConnectButton from "@/components/connect/button";
 
 interface TypeLink {
   label: string,
@@ -20,14 +21,15 @@ const NavbarLayout = () => {
 
   return (
     <Navbar position="static" className="bg-sky-900/80" classNames={{ menu: 'bg-transparent' }} >
-      <NavbarBrand className="flex justify-between sm:justify-start">
+      <NavbarBrand className="flex justify-between sm:justify-start gap-2">
+        <NavbarMenuToggle
+          // aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden text-white"
+
+        />
         <Link color="foreground" href='/' >
           <LogoAgritoken width={120} />
         </Link>
-        <NavbarMenuToggle
-          // aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
-        />
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {links.map((link, idx) => (
@@ -38,15 +40,15 @@ const NavbarLayout = () => {
           </NavbarItem>
         ))}
       </NavbarContent>
-      <NavbarContent justify="end" className="hidden sm:flex gap-4">
+      <NavbarContent justify="end" >
         <NavbarItem >
-          <Web3Button />
+          <ConnectButton />
         </NavbarItem>
       </NavbarContent>
 
       <NavbarMenu className="bg-black/60">
         <NavbarMenuItem >
-          <Web3Button />
+          <ConnectButton />
         </NavbarMenuItem>
       </NavbarMenu>
     </Navbar>
