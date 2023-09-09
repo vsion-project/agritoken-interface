@@ -27,7 +27,6 @@ const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
 // })
 
 function getTrustWalletFromWindow() {
-  const eth = (window as any).ethereum
 
   const isTrustWallet = (ethereum: any) => {
     // Identify if Trust Wallet injected provider is present.
@@ -37,11 +36,12 @@ function getTrustWalletFromWindow() {
   };
 
   const injectedProviderExist =
-    typeof window !== "undefined" && typeof eth !== "undefined";
+    typeof window !== "undefined" && typeof (window as any).ethereum !== "undefined";
 
   if (!injectedProviderExist) {
     return null;
   }
+  const eth = (window as any).ethereum
 
   if (isTrustWallet(eth)) {
     return eth;
