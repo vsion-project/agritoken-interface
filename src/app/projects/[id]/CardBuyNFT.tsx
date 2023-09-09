@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Card, Button, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input, useDisclosure, Checkbox,
 } from "@nextui-org/react";
@@ -13,21 +13,17 @@ import ModalConnect from '@/components/connect/_modal'
 // ABI
 import AbiUSDT from '@/data/ABIs/USDT.abi.json';
 import AbiAgriToken from '@/data/ABIs/AgroToken.abi.json';
-import { formatEther, parseEther } from "viem";
+import { formatEther, getAddress, parseEther } from "viem";
 import LinkBinance from "@/components/nft/link-binance";
-import { BiSolidDownArrow } from "react-icons/bi";
 import { waitForTransaction } from "wagmi/actions";
-import LoaderTx from "@/components/loader/loaderTx";
 import { LoadingContext } from "@/context/use-transaccion";
 import ClientOnly from "@/components/hyration/clientOnly";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from "remark-gfm";
-import { error } from "console";
 import Image from "next/image";
 
-const contractUSDT = '0x4C5232ba1117F24C7137C63fBc897BaA1baEf43a'
-const contractAgriToken = '0xE327eD2e47Be0Fa6393d2D3038510A9a8f18a395'
-
+const contractUSDT = getAddress(process.env.NEXT_PUBLIC_ADDRESS_USDT || '0');
+const contractAgriToken = getAddress(process.env.NEXT_PUBLIC_ADDRESS_AGRITOKEN_C1 || '0');
 
 export default function CardBuyNFT(props: TPropsCardBuyNFT) {
   const {
@@ -37,7 +33,6 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     price,
     description
   } = props;
-
   const [amountDeposit, setAmountDeposit] = useState("")
   const [isApprove, setIsApprove] = useState(false)
   const [isOk, setIsOk] = useState(false)

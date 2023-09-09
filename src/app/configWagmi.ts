@@ -7,19 +7,21 @@ import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import {
   // localhost,
   // sepolia,
-  bscTestnet
+  bscTestnet,
+  bsc
 } from 'wagmi/chains'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 // import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 
-const chains = [
-  bscTestnet
-]
+const isProduction = process.env.NODE_ENV == "production"
+
+const chains = isProduction ? [bsc] : [bscTestnet]
+
 
 export const projectId = process.env.NEXT_PUBLIC_WAGMI_PROJECT_ID || ''
 
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+const { publicClient } = configureChains<any>(chains, [w3mProvider({ projectId })])
 // export const wagmiConfig = createConfig({
 //   autoConnect: true,
 //   connectors: w3mConnectors({ projectId, chains }),
