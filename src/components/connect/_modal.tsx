@@ -41,7 +41,7 @@ const _modal = (props: TPropsModalConnect) => {
                 .map((x) => (<Button
                   color='secondary'
                   size='lg'
-                  className='relative text-2xl font-semibold flex justify-left h-16'
+                  className='relative text-2xl font-semibold flex h-16'
                   key={x.id}
                   isLoading={isLoading && x.id === pendingConnector?.id}
                   onClick={() =>
@@ -56,6 +56,8 @@ const _modal = (props: TPropsModalConnect) => {
                     <div className='w-12'>
                       {typeof x?.name == 'string' && icons[x.name]}
                     </div>
+                  </div>
+                  <div className='w-12'>
                   </div>
                   <div className='z-30'>
                     {x.name}
