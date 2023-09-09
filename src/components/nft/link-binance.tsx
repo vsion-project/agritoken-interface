@@ -13,7 +13,7 @@ interface TPropsLinkBinance {
 
 const LinkBinance = (props: TPropsLinkBinance) => {
   const { transaction, option = 'tx', textPrev, className } = props
-  const isProduction = process.env.enviroment === 'production'
+  const isProduction = process.env.NODE_ENV === 'production'
   return (
     <span>
       {textPrev && `${textPrev} `}
