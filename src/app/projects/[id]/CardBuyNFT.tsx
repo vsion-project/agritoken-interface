@@ -1,7 +1,7 @@
 'use client'
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
-  Card, CardHeader, CardFooter, Image, Button, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input, useDisclosure, Checkbox,
+  Card, Button, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input, useDisclosure, Checkbox,
 } from "@nextui-org/react";
 import { TPropsCardBuyNFT } from "../../types";
 import { useAccount, useContractRead, useContractWrite } from "wagmi";
@@ -13,20 +13,17 @@ import ModalConnect from '@/components/connect/_modal'
 // ABI
 import AbiUSDT from '@/data/ABIs/USDT.abi.json';
 import AbiAgriToken from '@/data/ABIs/AgroToken.abi.json';
-import { formatEther, parseEther } from "viem";
+import { formatEther, getAddress, parseEther } from "viem";
 import LinkBinance from "@/components/nft/link-binance";
-import { BiSolidDownArrow } from "react-icons/bi";
 import { waitForTransaction } from "wagmi/actions";
-import LoaderTx from "@/components/loader/loaderTx";
 import { LoadingContext } from "@/context/use-transaccion";
 import ClientOnly from "@/components/hyration/clientOnly";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from "remark-gfm";
-import { error } from "console";
+import Image from "next/image";
 
-const contractUSDT = '0x755F00949BfFf9Ae7D8EDBc2E3Cc9be2F86948e2'
-const contractAgriToken = '0xeAa857D5Fc73bC0270E20703506A904EF3c497Fd'
-
+const contractUSDT = getAddress(process.env.NEXT_PUBLIC_ADDRESS_USDT || '0');
+const contractAgriToken = getAddress(process.env.NEXT_PUBLIC_ADDRESS_AGRITOKEN_C1 || '0');
 
 export default function CardBuyNFT(props: TPropsCardBuyNFT) {
   const {
@@ -36,7 +33,6 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     price,
     description
   } = props;
-
   const [amountDeposit, setAmountDeposit] = useState("")
   const [isApprove, setIsApprove] = useState(false)
   const [isOk, setIsOk] = useState(false)
@@ -100,6 +96,12 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     functionName: 'buyNFT',
   })
 
+  const { data: fee } = useContractRead({
+    address: contractAgriToken,
+    abi: AbiAgriToken,
+    functionName: 'fee',
+  })
+
   const { data: balanceNFT, refetch: GetBalanceNFT, } = useContractRead({
     address: contractAgriToken,
     abi: AbiAgriToken,
@@ -123,8 +125,14 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
 
   async function handleBuyNFTClick() {
     try {
-      if (IncreaseAllowance && typeof Price == 'bigint' && typeof balanceUSDT == 'bigint') {
 
+      if (!amountDeposit) {
+        throw new Error('Indica la cantidad de NFT')
+      }
+      if (Number(amountDeposit) <= 0) {
+        throw new Error('La cantidad de NFT\'s debe ser mayor que 0')
+      }
+      if (IncreaseAllowance && typeof Price == 'bigint' && typeof balanceUSDT == 'bigint') {
         if (Price * BigInt(amountDeposit) > balanceUSDT) {
           throw new Error('No tines suficiente USDT')
         }
@@ -140,21 +148,21 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
             textPrev='Transaction complete'
             transaction={res.hash}
           />)
-      }
 
-      if (BuyNFT) {
-        setLoading(true)
-        const res = await BuyNFT({ args: [id, amountDeposit] })
-        await waitForTransaction({
-          hash: res.hash,
-        })
-        toast.success(
-          <LinkBinance
-            className='text-blue-900'
-            textPrev='Transaction complete'
-            transaction={res.hash}
-          />)
-        onClose()
+        if (BuyNFT && typeof fee == 'bigint') {
+          setLoading(true)
+          const res = await BuyNFT({ args: [id, amountDeposit], value: fee })
+          await waitForTransaction({
+            hash: res.hash,
+          })
+          toast.success(
+            <LinkBinance
+              className='text-blue-900'
+              textPrev='Transaction complete'
+              transaction={res.hash}
+            />)
+          onClose()
+        }
       }
     } catch (error: any) {
       toast.error(error?.shortMessage ? error.shortMessage : error?.message)
@@ -172,17 +180,20 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
         <CardBody className="relative z-10 top-0 flex-col items-start p-0 overflow-hidden " >
           <div className="realtive z-0 w-full before:block before:pb-[100%]">
             <Image
-              removeWrapper
               alt="Card example background"
-              className="block w-full h-auto absolute top-0 bottom-0 object-cover align-center z-0"
+              width={700}
+              height={700}
+              className="rounded-xl block w-full h-auto absolute top-0 bottom-0 object-cover align-center z-0"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               src={image}
+              priority
             />
             <ClientOnly>
 
               {supplayNFT != null && (<div className="bg-black bg-opacity-90 text-white font-extrabold text-xl lg:text-2xl rounded-xl absolute z-10 top-4 left-4 p-2">
                 Quedan {typeof supplayNFT == 'bigint' ? supplayNFT.toString() : '0'}
               </div>)}
-              {balanceNFT != null && (<div className="bg-black bg-opacity-90 text-white font-extrabold text-2xl lg:text-3xl rounded-xl h-1/4 w-1/4 absolute z-10 bottom-4 right-4 border-[#22ff566d] border-5 flex justify-center items-center text-center">
+              {balanceNFT != null && (<div className="bg-black bg-opacity-90 text-white font-extrabold text-2xl lg:text-3xl rounded-xl h-1/4 w-2/5 md:w-1/4 absolute z-10 bottom-4 right-4 border-[#22ff566d] border-5 flex justify-center items-center text-center">
                 X {typeof balanceNFT == 'bigint' ? balanceNFT.toString() : '0'}
               </div>)}
             </ClientOnly>
@@ -205,18 +216,19 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
         scrollBehavior="inside"
         onOpenChange={onOpenChange}
         size={isApprove ? "xl" : "3xl"}
-        className="bg-[#0d3616]"
+        className="bg-primary"
+        classNames={{ closeButton: 'text-white hover:text-danger' }}
       >
         <ModalContent className="text-xl">
           {(onClose) => (
             <>
-              <ModalHeader className="font-bold text-2xl text-slate-400 ">{title}</ModalHeader>
+              <ModalHeader className="font-bold text-2xl text-emerald-100 ">{title}</ModalHeader>
               <ModalBody>
                 {
                   !isApprove ? (
                     <div >
                       <ReactMarkdown
-                        className="bg-gray-300 p-2"
+                        className="bg-gray-200 text-gray-900 dark:text-gray-100 dark:bg-gray-900 p-2"
                         remarkPlugins={[remarkGfm]}
                       >
                         {markdown}
@@ -232,12 +244,12 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                           Estoy de acuerdo
                         </Checkbox>
                       </div>
-                      <div className="flex justify-evenly mt-4">
-                        <Button color="danger" variant="flat" onPress={onClose}>
-                          Cancelar
-                        </Button>
-                        <Button color="primary" disabled={!isOk} onClick={() => setIsApprove(true)}>
+                      <div className="flex flex-col gap-6 justify-evenly mt-4">
+                        <Button color="success" disabled={!isOk} onClick={() => setIsApprove(true)}>
                           Aceptar
+                        </Button>
+                        <Button color="danger" onPress={onClose}>
+                          Cancelar
                         </Button>
                       </div>
 
@@ -258,10 +270,11 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                         <Input
                           size="lg"
                           type="number"
-                          label="Count NFT's"
+                          label="Cantidad de NFTs"
+                          classNames={{ description: 'text-gray-300' }}
                           min={1}
                           value={amountDeposit}
-                          description={`${typeof amountDeposit == 'bigint' ? amountDeposit * price : '0'} USDT`}
+                          description={`Te costará ${typeof Price == 'bigint' ? formatEther(BigInt(amountDeposit) * Price) : '0'} USDT`}
                           onChange={(ev) => {
                             setAmountDeposit(ev.target.value)
                           }} />
