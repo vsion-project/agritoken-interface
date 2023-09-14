@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+input {
+  color: rgb(var(--foreground-rgb));
+  background-color: rgb(var(--background-end-rgb));
+}

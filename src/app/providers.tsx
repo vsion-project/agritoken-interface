@@ -15,7 +15,7 @@ import { Toaster } from 'react-hot-toast';
 
 import LoaderTx from '@/components/loader/loaderTx'
 import { Web3Modal } from '@web3modal/react';
-
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const { isLoading } = useContext(LoadingContext)
@@ -23,60 +23,61 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <>
       <WagmiConfig config={wagmiConfig}>
         <NextUIProvider>
-          <div className='overflow-x-hidden relative h-[120%]'>
-            <Suspense fallback={<></>}>
+          <NextThemesProvider attribute="class" defaultTheme="dark">
+            <div className='overflow-x-hidden relative h-[120%]'>
+              <Suspense fallback={<></>}>
 
-              <ImageNext
-                alt="sky background"
-                src={sky}
-                placeholder="blur"
-                quality={100}
-                fill
-                sizes="100vw"
-                priority
-                fetchPriority='high'
-                style={{
-                  objectFit: 'cover',
-                }}
-              />
-              <div
-                className='w-full bottom-0 fixed grid justify-center overflow-auto z-0'
-              >
                 <ImageNext
-                  width={3840}
-                  height={75}
-                  src="/bg-harvest.tsp.png"
-                  alt="harvest"
-                  fetchPriority='high'
+                  alt="sky background"
+                  src={sky}
+                  placeholder="blur"
+                  quality={100}
+                  fill
+                  sizes="100vw"
                   priority
-                  sizes="(min-width: 2120px) 2000px, calc(94.44vw + 17px)"
-
+                  fetchPriority='high'
+                  style={{
+                    objectFit: 'cover',
+                  }}
                 />
-              </div>
-            </Suspense>
-            <NavbarLayout />
-            {isLoading && <LoaderTx />}
-            <main className="min-h-[90vh] px-6 py-12 sm:px-24 z-0">
-              {children}
-            </main>
+                <div
+                  className='w-full bottom-0 fixed grid justify-center overflow-auto z-0'
+                >
+                  <ImageNext
+                    width={3840}
+                    height={75}
+                    src="/bg-harvest.tsp.png"
+                    alt="harvest"
+                    fetchPriority='high'
+                    priority
+                    sizes="(min-width: 2120px) 2000px, calc(94.44vw + 17px)"
 
-            <Suspense fallback={<></>}>
-              <Toaster
-                position="bottom-center"
-                reverseOrder={false}
-                toastOptions={{
-                  className: '',
-                  style: {
-                    maxWidth: '90vw',
-                    padding: '16px',
-                  },
-                  duration: 5000
-                }}
-              />
-            </Suspense>
+                  />
+                </div>
+              </Suspense>
+              <NavbarLayout />
+              {isLoading && <LoaderTx />}
+              <main className="min-h-[90vh] px-6 py-12 sm:px-24 z-0">
+                {children}
+              </main>
 
-          </div>
+              <Suspense fallback={<></>}>
+                <Toaster
+                  position="bottom-center"
+                  reverseOrder={false}
+                  toastOptions={{
+                    className: '',
+                    style: {
+                      maxWidth: '90vw',
+                      padding: '16px',
+                    },
+                    duration: 5000
+                  }}
+                />
+              </Suspense>
 
+            </div>
+          </NextThemesProvider>
         </NextUIProvider>
       </WagmiConfig>
       <Web3Modal

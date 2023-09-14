@@ -123,7 +123,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
     args: [id],
   })
 
-  async function handleBuyNFTClick() {
+  async function handleBuyNFTClick(max: number) {
     try {
 
       if (!amountDeposit) {
@@ -131,6 +131,9 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
       }
       if (Number(amountDeposit) <= 0) {
         throw new Error('La cantidad de NFT\'s debe ser mayor que 0')
+      }
+      if (Number(amountDeposit) > max) {
+        throw new Error(`La cantidad de NFT\'s debe ser menor o igual a ${max}`)
       }
       if (IncreaseAllowance && typeof Price == 'bigint' && typeof balanceUSDT == 'bigint') {
         if (Price * BigInt(amountDeposit) > balanceUSDT) {
@@ -259,11 +262,15 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                       <>
                         <div className="text-gray-200">
                           <span>
-                            <b>Precio NFT: </b> {typeof Price == 'bigint' ? formatEther(Price) : '0'} USDT
+                            <b>Precio NFT: </b> {typeof Price == 'bigint'
+                              ? formatEther(Price)
+                              : '0'} USDT
                           </span>
                           <br />
                           <span>
-                            <b>Tu tienes: </b> {typeof balanceUSDT == 'bigint' ? formatEther(balanceUSDT) : '0'} USDT
+                            <b>Tu tienes: </b> {typeof balanceUSDT == 'bigint'
+                              ? formatEther(balanceUSDT)
+                              : '0'} USDT
                           </span>
                           <br />
                         </div>
@@ -271,10 +278,16 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                           size="lg"
                           type="number"
                           label="Cantidad de NFTs"
-                          classNames={{ description: 'text-gray-300' }}
+                          classNames={
+                            {
+                              description: 'text-gray-300',
+                            }
+                          }
                           min={1}
                           value={amountDeposit}
-                          description={`Te costará ${typeof Price == 'bigint' ? formatEther(BigInt(amountDeposit) * Price) : '0'} USDT`}
+                          description={`Te costará ${typeof Price == 'bigint'
+                            ? formatEther(BigInt(amountDeposit) * Price)
+                            : '0'} USDT`}
                           onChange={(ev) => {
                             setAmountDeposit(ev.target.value)
                           }} />
@@ -282,7 +295,7 @@ export default function CardBuyNFT(props: TPropsCardBuyNFT) {
                           size="lg"
                           className="uppercase"
                           color="success"
-                          onClick={handleBuyNFTClick}>
+                          onClick={() => handleBuyNFTClick(typeof supplayNFT == 'bigint' ? Number(supplayNFT) : 0)}>
                           Comprar NFT
                         </Button>
                       </>

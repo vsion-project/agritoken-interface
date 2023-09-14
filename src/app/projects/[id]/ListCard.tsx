@@ -55,7 +55,7 @@ const CardList = ({ id }: { id: string }) => {
             <Progress
               color='warning'
               aria-label="Loading..."
-              className="max-w-full"
+              className="max-w-full border-2 border-gray-200/30 dark:border-gray-900/30"
               value={Math.trunc(step / (timeAvatar.length - 1) * 100)}
             />
           </div>
