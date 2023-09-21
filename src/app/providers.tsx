@@ -1,21 +1,23 @@
 'use client'
 
-import NavbarLayout from '@/components/layout/_navbar'
+import React, { lazy, Suspense, useContext } from 'react';
+
 import { NextUIProvider } from '@nextui-org/react'
 
 import { WagmiConfig } from 'wagmi'
 import { wagmiConfig, projectId, ethereumClient } from './configWagmi';
 
-import { Suspense, useContext } from 'react'
 import ImageNext from 'next/image'
 
 import sky from '@/../public/bg-sky.png'
 import { LoadingContext } from '@/context/use-transaccion'
 import { Toaster } from 'react-hot-toast';
 
-import LoaderTx from '@/components/loader/loaderTx'
 import { Web3Modal } from '@web3modal/react';
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+
+const NavbarLayout = lazy(() => import('@/components/layout/_navbar'))
+const LoaderTx = lazy(() => import('@/components/loader/loaderTx'))
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const { isLoading } = useContext(LoadingContext)
@@ -55,8 +57,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   />
                 </div>
               </Suspense>
-              <NavbarLayout />
-              {isLoading && <LoaderTx />}
+              <Suspense fallback={<></>}>
+                <NavbarLayout />
+              </Suspense>
+              <Suspense fallback={<></>}>
+                {isLoading && <LoaderTx />}
+              </Suspense>
               <main className="min-h-[90vh] px-6 py-12 sm:px-24 z-0">
                 {children}
               </main>
